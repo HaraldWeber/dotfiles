@@ -12,7 +12,7 @@ if [ -n "$BASH_VERSION" ]; then
 fi
 
 # Load some dotfiles
-for file in ~/.bash/{bash_path}; do
+for file in ~/.bash/{bash_path,bash_aliases,bash_completion}; do
   [ -r "$file" ] && source "$file"
 done
 
