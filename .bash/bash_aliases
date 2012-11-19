@@ -1,0 +1,4 @@
+# Load alias files
+for file in ~/.bash/aliases/{adb.bash,example.bash}; do
+  [ -r "$file" ] && source "$file"
+done

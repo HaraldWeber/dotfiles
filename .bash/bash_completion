@@ -1,0 +1,4 @@
+# Load completion files
+for file in ~/.bash/completion/{adb.bash,example.bash}; do
+  [ -r "$file" ] && source "$file"
+done
