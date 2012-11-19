@@ -1,0 +1,9 @@
+# This file is used to extend the PATH variable
+
+PATH=$PATH:$HOME/.rvm/bin 				# Add RVM to PATH for scripting
+
+PATH=$PATH:$HOME/opt/android-sdk/sdk/tools		# Add Android tools
+PATH=$PATH:$HOME/opt/android-sdk/sdk/platform-tools	# Add Android platform tools
+
+
+
