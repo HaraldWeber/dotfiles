@@ -5,19 +5,37 @@ fi
 
 # From https://gist.github.com/828432
 
+c_reset=${White}
+c_user=${IWhite}
+c_path=${White}
+c_git_clean=${Green}
+c_git_staged=${Cyan}
+c_git_unstaged=${Red}
+
 # Function to assemble the Git parsingart of our prompt.
 git_prompt ()
 {
-  if ! git rev-parse --git-dir > /dev/null 2>&1; then
-    return 0
-  fi
-  git_branch=$(git branch 2>/dev/null | sed -n '/^\*/s/^\* //p')
-  if git diff --quiet 2>/dev/null >&2; then
-    git_color="$Green"
-  else
-    git_color="$Red"
-  fi
-  echo "[$git_color$git_branch${White}]"
+    GIT_DIR=`git rev-parse --git-dir 2>/dev/null`
+    if [ -z "$GIT_DIR" ]; then
+        return 0
+    fi
+    GIT_HEAD=`cat $GIT_DIR/HEAD`
+    GIT_BRANCH=${GIT_HEAD##*/}
+    if [ ${#GIT_BRANCH} -eq 40 ]; then
+        GIT_BRANCH="(no branch)"
+    fi
+    STATUS=`git status --porcelain`
+    if [ -z "$STATUS" ]; then
+        git_color="${c_git_clean}"
+    else
+        echo -e "$STATUS" | grep -q '^ [A-Z\?]'
+        if [ $? -eq 0 ]; then
+            git_color="${c_git_unstaged}"
+        else
+            git_color="${c_git_staged}"
+        fi
+    fi
+    echo "[$git_color$GIT_BRANCH$c_reset]"
 }
 
 # Thy holy prompt.
