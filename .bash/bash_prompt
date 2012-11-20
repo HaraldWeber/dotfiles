@@ -39,4 +39,4 @@ git_prompt ()
 }
 
 # Thy holy prompt.
-PROMPT_COMMAND='PS1="${debian_chroot:+($debian_chroot)}${IWhite}\u${White}@${IWhite}\h${White}:${White}\w${White}$(git_prompt)\$ "'
+PROMPT_COMMAND='PS1="${Red}${debian_chroot:+($debian_chroot)}${IWhite}\u${White}@${IWhite}\h${White}:${White}\w${White}$(git_prompt)\$ "'
