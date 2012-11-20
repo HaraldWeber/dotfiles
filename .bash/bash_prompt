@@ -1,0 +1,26 @@
+# set variable identifying the chroot you work in (used in the prompt below)
+if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
+fi
+
+# From https://gist.github.com/828432
+
+# Function to assemble the Git parsingart of our prompt.
+git_prompt ()
+{
+  if ! git rev-parse --git-dir > /dev/null 2>&1; then
+    return 0
+  fi
+  git_branch=$(git branch 2>/dev/null | sed -n '/^\*/s/^\* //p')
+  if git diff --quiet 2>/dev/null >&2; then
+    git_color="$Green"
+  else
+    git_color="$Red"
+  fi
+  echo "[$git_color$git_branch${White}]"
+}
+
+# Thy holy prompt.
+PROMPT_COMMAND='PS1="${debian_chroot:+($debian_chroot)}${IWhite}\u${White}@${IWhite}\h${White}:${White}\w${White}$(git_prompt)\$ "'
+
+# PS1="${debian_chroot:+($debian_chroot)}\u@\h:\w\a\] $(parse_git_branch)$ "
