@@ -25,5 +25,10 @@ for file in ~/.bash/{bash_path,bash_aliases,bash_completion,bash_prompt}; do
   [ -r "$file" ] && source "$file"
 done
 
+# Load function files
+for file in ~/.bash/functions/*.bash; do
+  [ -r "$file" ] && source "$file"
+done
+
 # Load RVM into a shell session *as a function*
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" 
