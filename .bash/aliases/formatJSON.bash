@@ -1,2 +1,2 @@
 #alias for python json.tool
-formatJSON=python -mjson.tool
+alias formatJSON='python -mjson.tool'
