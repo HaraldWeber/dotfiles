@@ -28,6 +28,9 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
+# Alias for scripts in .bash/bin directory
+alias install-key='~/.bash/bin/install-key'
+
 # Load alias files
 for file in ~/.bash/aliases/*.bash; do
   [ -r "$file" ] && source "$file"
