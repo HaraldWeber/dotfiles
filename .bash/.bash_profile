@@ -21,7 +21,7 @@ shopt -s checkwinsize
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # Load some dotfiles (order is important)
-for file in ~/.bash/{bash_path,bash_aliases,bash_completion,bash_prompt}; do
+for file in ~/.bash/{bash_exports,bash_path,bash_aliases,bash_completion,bash_prompt}; do
   [ -r "$file" ] && source "$file"
 done
 
