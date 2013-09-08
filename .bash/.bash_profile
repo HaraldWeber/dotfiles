@@ -34,5 +34,7 @@ done
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" 
 
 # Load custom key bindings
-xmodmap ~/.keybindings 
+if [ xmodmap == 1 ]; then
+    xmodmap ~/.keybindings 
+fi
 
