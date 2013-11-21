@@ -1,1 +1,5 @@
+# Use vim as default editor
 export EDITOR=vim
+
+# Use an other defautl wine prefix
+export WINEPREFIX=~/.wine/default
