@@ -5,9 +5,9 @@ fi
 
 # From https://gist.github.com/828432
 
-c_reset=${White}
-c_user=${IWhite}
-c_path=${White}
+c_reset=${Black}
+c_user=${IBlack}
+c_path=${Black}
 c_git_clean=${Green}
 c_git_staged=${Cyan}
 c_git_unstaged=${Red}
@@ -39,4 +39,4 @@ git_prompt ()
 }
 
 # Thy holy prompt.
-PROMPT_COMMAND='PS1="${Red}${debian_chroot:+($debian_chroot)}${IWhite}\u${White}@${IWhite}\h${White}:${White}\W${White}$(git_prompt)\$ "'
+PROMPT_COMMAND='PS1="${Red}${debian_chroot:+($debian_chroot)}${Black}\u@$\h:\W$(git_prompt)\$ "'
