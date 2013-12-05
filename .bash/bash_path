@@ -4,8 +4,9 @@ PATH=$PATH:$HOME/.rvm/bin 				# Add RVM to PATH for scripting
 
 PATH=$PATH:$HOME/opt/android-sdk/sdk/tools		# Add Android tools
 PATH=$PATH:$HOME/opt/android-sdk/sdk/platform-tools	# Add Android platform tools
+PATH=$PATH:$HOME/opt/android-sdk/ndk    # Add Android NDK
 
 PATH="$HOME/bin:$PATH"					# Set private bin path
 
-
+PATH=$PATH:$HOME/opt/gradle/bin
 
