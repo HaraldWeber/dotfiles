@@ -3,3 +3,6 @@ export EDITOR=vim
 
 # Use an other defautl wine prefix
 export WINEPREFIX=~/.wine/default
+
+# Home of the Android SDK
+export ANDROID_HOME=~/opt/android-sdk/sdk/
