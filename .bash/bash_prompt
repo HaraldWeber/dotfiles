@@ -39,4 +39,8 @@ git_prompt ()
 }
 
 # Thy holy prompt.
-PROMPT_COMMAND='PS1="${Red}${debian_chroot:+($debian_chroot)}${Black}\u@\h:\W$(git_prompt)\$ "'
+if [[ ${EUID} == 0 ]] ; then
+    PROMPT_COMMAND='PS1="${Red}${debian_chroot:+($debian_chroot)}\u@\h:\W$(git_prompt)\$ "'
+else
+    PROMPT_COMMAND='PS1="\u@\h:\W$(git_prompt)\$ "'
+fi
