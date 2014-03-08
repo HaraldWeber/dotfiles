@@ -91,6 +91,12 @@ open some.pdf
 This will open the pdf in your standard pdf reader.
 
 
+## tmux-remote
+
+This is a script to easily create a shared tmux session.   
+One user creates a sessions with the command __tmux_remote__ and the other user executes __tmux_remote attach__.   
+The user who wants to attach a session gets a menu with open tmux sessions to choose from.
+
 # Directory Structure
 Each program has its own directory. Some files are symlinked to to the home directory (e.g. .bashrc).
 
