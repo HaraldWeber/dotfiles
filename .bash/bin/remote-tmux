@@ -1,0 +1,26 @@
+#!/bin/bash
+#
+# This creates a shared tmux session
+PARAM=$1
+if [[ -z "${PARAM}" ]]
+then
+    # create a new remote tmux session
+    SESSION=rt-$RANDOM
+    tmux -S /tmp/$SESSION new -s $SESSION; chmod a+rw /tmp/$SESSION
+    rm /tmp/$SESSION
+else
+    # let the user choose from sessions
+    shopt -s nullglob
+    SESSIONS=( $(ls /tmp/rt-*) )
+    if [[ $? -eq 0 ]] 
+    then
+        # if sessions exists display a list
+        PS3='Choose your session: '
+        select opt in "${SESSIONS[@]}"
+        do
+            SESSION=$opt
+            break
+        done
+        tmux -S $SESSION attach
+    fi
+fi
