@@ -91,6 +91,12 @@ open some.pdf
 This will open the pdf in your standard pdf reader.
 
 
+## tmux
+
+tmux is an alias to 'tmux attach || tmux'
+This alias always resume a tmux session. If there is no session just start tmux.
+
+
 ## tmux-remote
 
 This is a script to easily create a shared tmux session.   
