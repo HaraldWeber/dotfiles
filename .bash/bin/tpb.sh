@@ -11,7 +11,7 @@ search() {
     RESULT_COUNT=20
     q="$*"
     q=`echo $q | tr ' ' '+'`
-    results=`wget -U Mozilla -qO - "http://thepiratebay.org/search/$q/0/7/0" | zcat |  grep '<a href=\"magnet\:?xt=urn:btih:'` 
+    results=`wget -U Mozilla --header="accept-encoding: gzip" -qO - "http://thepiratebay.org/search/$q/0/7/0" | zcat |  grep '<a href=\"magnet\:?xt=urn:btih:'` 
     I=0
     LINK_LIST=""
 for line in $results
