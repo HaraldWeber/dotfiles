@@ -11,3 +11,8 @@ PATH="$HOME/.bash/bin:$HOME/bin:$PATH"					# Set private bin path
 PATH=$PATH:$HOME/opt/gradle/bin
 PATH=$PATH:$HOME/opt/apache-maven/bin
 
+# Load path files
+for file in ~/.bash/aliases/*.bash; do
+  [ -r "$file" ] && source "$file"
+done
+
