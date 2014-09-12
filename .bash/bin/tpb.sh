@@ -8,6 +8,7 @@
 
 search() {
     TORRENT_PROG=aria2c
+    TORRENT_PROG_OPTS=" --seed-time=0"
     RESULT_COUNT=20
     q="$*"
     q=`echo $q | tr ' ' '+'`
@@ -39,7 +40,7 @@ download() {
         then
             link=`echo "$line" | awk '{print $1}'`
             echo "Downloading torrent file."
-            $TORRENT_PROG $link
+            $TORRENT_PROG $TORRENT_PROG_OPTS $link
             echo "Torrent added."
             exit 0
         fi
