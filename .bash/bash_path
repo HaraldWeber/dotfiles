@@ -12,7 +12,7 @@ PATH=$PATH:$HOME/opt/gradle/bin
 PATH=$PATH:$HOME/opt/apache-maven/bin
 
 # Load path files
-for file in ~/.bash/aliases/*.bash; do
+for file in ~/.bash/path/*.bash; do
   [ -r "$file" ] && source "$file"
 done
 
