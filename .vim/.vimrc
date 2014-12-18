@@ -34,3 +34,6 @@ vnoremap > >gv
 
 " Show NERDTree if vim is started without an file as argument
 autocmd VimEnter * if !argc() | NERDTree | endif
+
+" enable mouse support
+set mouse=a
