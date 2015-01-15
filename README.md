@@ -64,8 +64,7 @@ For more information run __netq -h__.
 This program installs your public ssh key to the specified server.
 
 ```bash
-$ install-key 8.8.8.8
- ** Key installed to '8.8.8.8' successfully.
+$ install-key <remote_host> [ssh_port] [public_key_file]
 ```
 
 ## formatJSON
