@@ -1,0 +1,77 @@
+#!/bin/bash
+
+## This script opens a ssh tunnel and executes an optional command
+
+## Author: Harald Weber harald.h.weber@gmail.com
+
+
+# checks if parameter is a decimal number
+isPortNumber() {
+   re='^[0-9]+$'
+   if [[ $1 =~ $re ]] ; then
+      return 0
+   else
+      return 1
+   fi
+}
+
+printUsage() {
+   echo ""
+   echo "Usage:"
+   echo "Opens a ssh tunnel and executes the optional command."
+   echo "If no command is given the program waits until CTRL + d is pressed."
+   echo ""
+   echo "`basename $0` <port> <remote_host> [command]"
+   echo "`basename $0` <sourcePort> <destinationPort> <remote host> [command]"
+   echo ""
+}
+
+CTL_PATH="/tmp/.$(basename $0)$$.tmp"
+
+# if $1 and $2 are port numbers the params signature is
+# <sourcePort> <destinationPort> <remote_host> [command]
+if isPortNumber $1 && isPortNumber $2 ; then
+   # comand with different source and destination port 
+   # <sourcePort> <destinationPort> <remote_host> [command]
+   SSH_SOURCE_PORT=$1
+   SSH_DESTINATION_PORT=$2
+   SSH_REMOTEHOST=$3
+   # shift the first three parameters
+   shift
+   shift
+   shift
+else
+   if isPortNumber $1 ; then
+      # source and destination port are equal
+      # <port> <remote_host> [command]
+      SSH_SOURCE_PORT=$1
+      SSH_DESTINATION_PORT=$1
+      SSH_REMOTEHOST=$2
+      # shift the first two parameters
+      shift
+      shift
+   else
+      # parameters are not correct. Print the usage.
+      printUsage
+      exit 1
+   fi
+fi
+
+# execute the ssh command and store a control file in ${CTL_PATH}
+ssh -L ${SSH_SOURCE_PORT}:localhost:${SSH_DESTINATION_PORT} -N -f -M -S ${CTL_PATH} ${SSH_REMOTEHOST}
+
+# exit if ssh didnt start correctly
+if [ $? -ne 0 ] ; then
+   exit -1
+fi
+
+# execute the given command or wait until CTRL + d is pressed.
+if [[ -n $@ ]] ; then
+   $@
+else
+   echo "Tunnel to ${SSH_REMOTEHOST} established. Press CTRL + d to close."
+   cat
+fi
+
+echo "Closing tunnel to ${SSH_REMOTEHOST}"
+ssh -S ${CTL_PATH} -O exit hari@chaos.weber.tf

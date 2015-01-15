@@ -43,7 +43,7 @@ $ calc '(1+3)*2'
 
 These aliases let you queue commands that requires much cpu time, network bandwidth or disk io. 
 
-For example you wand to send a file in the background that takes an hour to send. After a minute you want to send more files. If you send them parallel it would take ages to complete the first file. To avoid this you can use the alias __netq__.
+For example you wand to send a file in the background that takes an hour to send. After a minute you want to send more files. If you send them parallel it would take ages to complete the first file. To avoid this you can use the alias _netq__.
 
 ```bash
 $ netq scp some.file remote:/tmp/
@@ -101,6 +101,18 @@ This alias always resume a tmux session. If there is no session just start tmux.
 This is a script to easily create a shared tmux session.   
 One user creates a sessions with the command __tmux_remote__ and the other user executes __tmux_remote attach__.   
 The user who wants to attach a session gets a menu with open tmux sessions to choose from.
+
+
+## tunnel
+
+Opens a ssh tunnel and executes the optional command.
+If no command is given the program waits until CTRL + d is pressed.
+
+```bash
+$ tunnel <port> <remote_host> [command]
+$ tunnel <sourcePort> <destinationPort> <remote host> [command]
+```
+
 
 # Directory Structure
 Each program has its own directory. Some files are symlinked to to the home directory (e.g. .bashrc).
