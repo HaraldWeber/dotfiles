@@ -5,7 +5,7 @@ fi
 
 # From https://gist.github.com/828432
 
-c_reset=${Black}
+c_reset=${Color_Off}
 c_user=${IBlack}
 c_path=${Black}
 c_git_clean=${Green}
