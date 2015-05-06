@@ -114,6 +114,17 @@ $ tunnel <sourcePort> <destinationPort> <remote host> [command]
 ```
 
 
+## bat
+
+bat is an alias to show some battery infos
+```bash
+$ bat 
+    state:               discharging
+    time to empty:       2,9 hours
+    percentage:          64%
+```
+            
+
 # Directory Structure
 Each program has its own directory. Some files are symlinked to to the home directory (e.g. .bashrc).
 
