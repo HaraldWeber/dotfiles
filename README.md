@@ -131,6 +131,14 @@ Toggles screen output of the given screen to on of off.
 $ toggle-screen LVDS1 
 ```
 
+## lock
+
+Locks the screen with i3lock.
+```bash
+$ lock
+```
+
+
 # Directory Structure
 Each program has its own directory. Some files are symlinked to to the home directory (e.g. .bashrc).
 
