@@ -123,7 +123,13 @@ $ bat
     time to empty:       2,9 hours
     percentage:          64%
 ```
-            
+
+## toggle-screen            
+
+Toggles screen output of the given screen to on of off.
+```bash
+$ toggle-screen LVDS1 
+```
 
 # Directory Structure
 Each program has its own directory. Some files are symlinked to to the home directory (e.g. .bashrc).
