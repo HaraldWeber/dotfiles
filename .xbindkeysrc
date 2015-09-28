@@ -1,0 +1,22 @@
+###########################
+# xbindkeys configuration #
+###########################
+
+# Increase volume
+"amixer -c 0 set Master 5+"
+ XF86AudioRaiseVolume
+
+# Decrease volume
+"amixer -c 0 set Master 5-"
+ XF86AudioLowerVolume
+
+# Mute audio
+"amixer -c 0 set Master toggle"
+ XF86AudioMute
+
+# Mute Mic
+# XF86AudioMicMute
+
+# Switch internal screen on/off
+"toggle-screen LVDS1"
+ XF86Display
