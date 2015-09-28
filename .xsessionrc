@@ -1,6 +1,0 @@
-#!/bin/bash
-#
-# Enshure that allow-user-xsession is set in /etc/X11/Xsessio.options
-#
-# Load custom key bindings
-xmodmap ~/.keybindings 
