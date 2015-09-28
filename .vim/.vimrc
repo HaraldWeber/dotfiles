@@ -37,3 +37,7 @@ autocmd VimEnter * if !argc() | NERDTree | endif
 
 " enable mouse support
 set mouse=a
+
+" solarized dark color theme
+set background=dark
+colorscheme solarized
