@@ -164,6 +164,8 @@ Some of these files loads extra files in their equivalent subdirectories.
  For example __bash_aliases__ loads all files in aliases.   
 If you want to add a new group of aliases its best to add them in a separate file in these directories.
 
+For customizations the filenames should end with .custom.bash. Then git will ignore these files.
+
 The __.bash/bin__ directory includes some executable scripts. This directory is added to the PATH variable in the __bash_path__ file.
 
 ## .screen
