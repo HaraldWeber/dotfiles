@@ -33,7 +33,7 @@ vnoremap < <gv
 vnoremap > >gv
 
 " Show NERDTree if vim is started without an file as argument
-autocmd VimEnter * if !argc() | NERDTree | endif
+"autocmd VimEnter * if !argc() | NERDTree | endif
 
 " enable mouse support
 set mouse=a
@@ -44,3 +44,6 @@ colorscheme solarized
 
 " disable Background Color Erase (wrong colors in tmux)
 set t_ut=
+
+" enable hidden buffers
+set hidden
