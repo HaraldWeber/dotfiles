@@ -1,0 +1,40 @@
+#!/bin/bash
+# This script generates a bittorrent magnet link with a specified info hash
+# Trackers are hard coded in TRACKER_LIST
+
+function usage {
+    echo "USAGE:
+    
+    $(basename $0) <INFO_HASH> [NAME]
+
+    INFO_HASH: The bittorrent SHA1 hash.
+    NAME: OPTIONAL the torrents name.
+
+    "
+}
+
+if [ -z "$1" ]
+then
+    usage
+    exit 1
+fi
+
+LINK="magnet:"
+HASH="urn:btih:$1"
+NAME="dn=$2"
+
+read -r -d '' TRACKER_LIST << EOM
+http://announce.torrentsmd.com:6969/announce
+http://mgtracker.org:2710/announce
+http://tracker.tfile.me/announce
+http://tracker.torrenty.org:6969/announce
+http://www.mvgroup.org:2710/announce
+EOM
+
+while read -r TRACKER 
+do
+    TRACKERS="${TRACKERS}&tr=${TRACKER}"
+done <<< "${TRACKER_LIST}"
+
+echo ${LINK}?xt=${HASH}\&${NAME}${TRACKERS}
+

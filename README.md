@@ -138,6 +138,13 @@ Locks the screen with i3lock.
 $ lock
 ```
 
+## magnet
+
+Creates a bittorrent magnet link with a specified info hash
+```bash
+$ magnet 3f19b149f53a50e14fc0b79926a391896eabab6f Ubuntu.iso
+```
+
 
 # Directory Structure
 Each program has its own directory. Some files are symlinked to to the home directory (e.g. .bashrc).
