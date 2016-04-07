@@ -43,4 +43,7 @@ xbindkeys
 autocutsel -fork &
 autocutsel -selection PRIMARY -fork &
 
+# VMware startup 
+/usr/bin/vmware-user-suid-wrapper
+
 i3
