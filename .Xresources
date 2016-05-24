@@ -3,7 +3,8 @@
 ! Allow copy/past to other x applications
 XTerm*VT100.translations: #override <Btn1Up>: select-end(PRIMARY, CLIPBOARD, CUT_BUFFER0)
 ! Set scrollback to 1024 lines
-xterm*saveLines:          512
+xterm*saveLines:        512
+XTerm*toolBar:          off
 
 !rxvt
 
