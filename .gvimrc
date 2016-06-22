@@ -8,4 +8,13 @@ set guioptions-=T  "remove toolbar
 set guioptions-=r  "remove right-hand scroll bar
 set guioptions-=L  "remove left-hand scroll bar
 
-
+" set fonts
+if has("gui_running")
+  if has("gui_gtk2")
+    set guifont=Inconsolata\ 11
+  elseif has("gui_macvim")
+    set guifont=Menlo\ Regular:h12
+  elseif has("gui_win32")
+    set guifont=Consolas:h10:cANSI
+  endif
+endif
