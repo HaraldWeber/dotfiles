@@ -50,3 +50,6 @@ set hidden
 
 " <Ctrl-l> redraws the screen and removes any search highlighting.
 nnoremap <silent> <C-l> :nohl<CR><C-l>
+
+" <Ctrl-c> deletes the current buffer without closing a split.
+nnoremap <C-c> :bp\|bd #<CR>
