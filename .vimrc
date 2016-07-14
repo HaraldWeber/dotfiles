@@ -47,3 +47,6 @@ set t_ut=
 
 " enable hidden buffers
 set hidden
+
+" <Ctrl-l> redraws the screen and removes any search highlighting.
+nnoremap <silent> <C-l> :nohl<CR><C-l>
