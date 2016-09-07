@@ -53,3 +53,6 @@ nnoremap <silent> <C-l> :nohl<CR><C-l>
 
 " <Ctrl-c> deletes the current buffer without closing a split.
 nnoremap <C-c> :bp\|bd #<CR>
+
+" Don't break words on a line break
+set linebreak
