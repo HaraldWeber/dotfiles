@@ -4,8 +4,10 @@ export EDITOR=vim
 # Use an other defautl wine prefix
 export WINEPREFIX=~/.wine/default
 
-# Home of the Android SDK
-export ANDROID_HOME=~/opt/android-sdk/sdk/
-
 # TERM variable for color suppoert
 export TERM=xterm-256color
+
+# Load bash export files
+for file in ~/.bash/exports/*.bash; do
+    [ -r "$file" ] && source "$file"
+done
