@@ -145,6 +145,13 @@ Creates a bittorrent magnet link with a specified info hash
 $ magnet 3f19b149f53a50e14fc0b79926a391896eabab6f Ubuntu.iso
 ```
 
+## backup
+
+A script to wrap duplicity. Make backups simple.
+Execute backup to show the usage.
+```bash
+$ backup
+```
 
 # Directory Structure
 Each program has its own directory. Some files are symlinked to to the home directory (e.g. .bashrc).
