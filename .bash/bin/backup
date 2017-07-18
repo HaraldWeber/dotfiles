@@ -1,0 +1,219 @@
+#!/bin/bash
+
+# Author: Harald Weber
+# A script for easy backups with duplicity
+
+
+usage() {
+    echo "
+    USAGE:
+
+    $(basename $0) backup <config_file>                        Creates a backup with settings from the config file
+    $(basename $0) list <config_file>                          List all files in a backup
+    $(basename $0) status <config_file>                        Shows the backup status
+    $(basename $0) verify <config_file>                        Verifies the integrity of a backup
+    $(basename $0) restore <config_file> file [time] dest      Resores a backup. See Restore options.
+    $(basename $0) config <config_file>                        Generates a config file
+    $(basename $0) gconfig <config_file>                       Generates a google drive credentials file
+
+    Restore options:
+    [time] can be one of the following:
+    1) "now"
+    2) Unix time e.g. 1453561232
+    3) Date string e.g. "2002-01-25T07:00:00+02:00"
+    4) An interval with s, m, h, D, W, M, or Y (indicating seconds, minutes, hours, days, weeks, months, or years respectively). E.g. 1h78m => 138 minutes.
+    5) A date format in the form YYYY/MM/DD, YYYY-MM-DD, MM/DD/YYYY, or MM-DD-YYYY. Time is 00:00
+
+    "
+}
+
+genConfigFile() {
+    cat > "$SETTINGS_FILE" << EOF || exit -1
+# Backup settings
+
+REMOVE_OLDER_THAN="5M"
+FULL_IF_OLDER_THAN="2M"
+BACKUP_SOURCE="/mnt/data/"
+BACKUP_DEST="/mnt/backups/"
+
+# Inclue and exclude files
+# exclude '**' and include specific files
+#EXCLUDE_LIST="boot proc sys dev"
+#INCLUDE_LIST=""
+
+# A passphrase for the backup
+#BACKUP_PASSWORD="passphrase"
+
+# Percentage of redundancy in files
+#REDUNDANCY=10
+
+# Use compression Y/N
+COMPRESSION="Y"
+
+# Archive volume size in MB
+VOLUME_SIZE="500"
+
+# Backend type (file, gdrive)
+BACKEND="file"
+
+# Google Drive settings
+#GOOGLE_DRIVE_SETTINGS="$HOME/.backup/gdrive.settings" 
+EOF
+
+    echo "
+    Created example config file $SETTINGS_FILE
+    "
+}
+
+genGDriveConfigFile() {
+    cat > "$SETTINGS_FILE" << EOF || exit -1
+client_config_backend: settings
+client_config:
+    client_id: <Client ID from developers’ console>
+    client_secret: <Client secret from developers’ console>
+save_credentials: True
+save_credentials_backend: file
+save_credentials_file: $HOME/.backup/gdrive.cred
+get_refresh_token: True
+EOF
+    echo "
+    Created example google drive credential file $SETTINGS_FILE
+    "
+}
+
+get_settings() {
+    if [ -f "$SETTINGS_FILE" ]; then
+        source "$SETTINGS_FILE"
+        if [ $BACKEND == "file" ]; then
+            REMOTE_PROT="file"
+            GDRIVE_URL=""
+        elif [ $BACKEND == "gdrive" ]; then
+            REMOTE_PROT="pydrive"
+            GDRIVE_URL="a@developer.gserviceaccount.com"
+            export GOOGLE_DRIVE_SETTINGS=$GOOGLE_DRIVE_SETTINGS
+        else
+            echo "No backend specified in config file: $SETTINGS_FILE"
+            usage
+            exit 1
+        fi
+
+        # check redundancy option
+        if [[ "$REDUNDANCY" && $REDUNDANCY != "0" ]]; then
+            REDUNDANCY_OPT=" --par2-redundancy $REDUNDANCY "
+            REMOTE_PROT="par2+$REMOTE_PROT"
+        fi
+
+        # check disable compression
+        if [ $COMPRESSION != "Y" ]; then
+            NO_COMPRESSION="--no-compression"
+        fi
+
+
+        # set archive passwphrase
+        if [[ ! -z $PASSPHRASE ]]; then
+            export PASSPHRASE="$BACKUP_PASSWORD"
+        else
+            ENCRYPTION_OPTS=" --no-encryption "
+        fi
+
+        # generate excludes
+        for INC in $INCLUDE_LIST 
+        do
+            INCLUDE="$INCLUDE --include $BACKUP_SOURCE/$INC "
+        done
+        if [ ! -z "$INCLUDE" ]; then
+            INCLUDE="$INCLUDE --exclude ’**’"
+        fi
+
+        # generate includes
+        for EX in $EXCLUDE_LIST 
+        do
+            EXCLUDE="$EXCLUDE --exclude $BACKUP_SOURCE/$EX "
+        done
+
+        # volume size
+        VOLUME_SIZE=" --volsize $VOLUME_SIZE "
+
+        # combine options
+        DUPLICITY_OPTS="$REDUNDANCY_OPT$VOLUME_SIZE$INCLUDE$EXCLUDE$DUPLICITY_OPTS$ENCRYPTION_OPTS$NO_COMRESSION --asynchronous-upload"
+
+
+        REMOTE_URL=$REMOTE_PROT://$GDRIVE_URL$BACKUP_DEST
+    else
+        echo "Settings file $SETTINGS_FILE not found"
+        usage
+        exit -1
+    fi
+}
+
+backup() {
+    echo BACKUP
+    $DUPLICITY --full-if-older-than $FULL_IF_OLDER_THAN $DUPLICITY_OPTS "$BACKUP_SOURCE" $REMOTE_URL
+    $DUPLICITY remove-older-than $REMOVE_OLDER_THAN --force $DUPLICITY_OPTS $REMOTE_URL
+}
+
+restore() {
+    if [ $# = 2 ]; then
+        $DUPLICITY restore $ENCRYPTION_OPTS --file-to-restore $1 $REMOTE_URL $2
+    elif [ $# = 3 ]; then
+        $DUPLICITY restore $ENCRYPTION_OPTS --file-to-restore $1 --time $2 $REMOTE_URL $3
+    else
+        $DUPLICITY restore $ENCRYPTION_OPTS $REMOTE_URL $1
+    fi
+}
+
+list() {
+    $DUPLICITY list-current-files $REMOTE_URL
+}
+
+status() {
+    $DUPLICITY collection-status $REMOTE_URL
+}
+
+verify() {
+    $DUPLICITY verify $ENCRYPTION_OPTS $REMOTE_URL "$BACKUP_SOURCE"
+}
+
+DUPLICITY="/usr/bin/duplicity"
+if [ ! -f "$DUPLICITY" ]; then
+    echo ERROR: Duplicity not found in path $DUPLICITY
+    usage
+    exit -1
+fi
+
+SETTINGS_FILE=$2
+
+if [ "$1" = "backup" ]; then
+    get_settings
+    backup
+elif [ "$1" = "list" ]; then
+    get_settings
+    list
+elif [ "$1" = "verify" ]; then
+    get_settings
+    verify
+elif [ "$1" = "restore" ]; then
+    get_settings
+    if [ $# = 4 ]; then
+        # file - dest
+        restore $3 $4
+    elif [ $# = 5 ]; then
+        # file - time - dest
+        restore $3 $4 $5
+    else
+        # dest (whole backup restore)
+        restore $3
+    fi
+elif [ "$1" = "status" ]; then
+    get_settings
+    status
+elif [ "$1" = "config" ]; then
+    genConfigFile
+elif [ "$1" = "gconfig" ]; then
+    genGDriveConfigFile
+else
+    usage
+fi
+
+# unset variables
+unset PASSPHRASE
