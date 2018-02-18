@@ -3,6 +3,6 @@
 # Define three queues for CPU, Disk I/O and Network
 # cpuq, ioq, netq
 
-alias cpuq='TS_SOCKET=/tmp/ts_cpuq ts'
-alias netq='TS_SOCKET=/tmp/ts_netq ts'
-alias ioq='TS_SOCKET=/tmp/ts_ioq ts'
+alias cpuq='TS_SOCKET=/tmp/ts_cpuq tsp'
+alias netq='TS_SOCKET=/tmp/ts_netq tsp'
+alias ioq='TS_SOCKET=/tmp/ts_ioq tsp'
