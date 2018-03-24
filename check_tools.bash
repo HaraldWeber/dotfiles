@@ -49,40 +49,45 @@ function checkPrograms()
         ["ncdu"]="ncdu"
         ["mtr"]="mtr"
 
-    )
-    PACKAGES_TO_INSTALL=""
-    read -p "Do you want to install programs automatically (dpkg based OS only)? [Y/n] " -n 1 -r
+    ) 
+    read -p "Do you want to install programs? [y/N] " -n 1 -r
     echo
-    if [[ ! $REPLY =~ (^$|^[Yy]$) ]]
+    if [[ $REPLY =~ ^[y]$ ]]
     then
-        # select 
-        echo "select"
-        for PROG in "${!PROGS[@]}";
-        do
-            read -p "Do you want to install ${PROG}? [Y/n] " -n 1 -r
-            echo
-            if [[ $REPLY =~ (^$|^[Yy]$) ]]
-            then
-                PACKAGES_TO_INSTALL="${PACKAGES_TO_INSTALL} ${PROGS[$PROG]}"
-            fi
-        done
-    else
-        for PROG in "${!PROGS[@]}";
-        do
-            PACKAGES_TO_INSTALL="${PACKAGES_TO_INSTALL} ${PROGS[$PROG]}"
-        done
-    fi
-    
-    echo "Do you want to install these programs?"
-    echo -e "\033[1m${PACKAGES_TO_INSTALL}\033[0m"
-    sleep 2
-    read -p "Install [Y/n]" -n 1 -r
-    if [[ ! $REPLY =~ (^$|^[Yy]$) ]]
-    then
+        PACKAGES_TO_INSTALL=""
+        read -p "Do you want to install programs automatically (dpkg based OS only)? [Y/n] " -n 1 -r
         echo
-        echo "Will not install additional programs."
-    else
-        sudo apt-get -y update && sudo apt-get install ${PACKAGES_TO_INSTALL}
+        if [[ ! $REPLY =~ (^$|^[Yy]$) ]]
+        then
+            # select 
+            echo "select"
+            for PROG in "${!PROGS[@]}";
+            do
+                read -p "Do you want to install ${PROG}? [Y/n] " -n 1 -r
+                echo
+                if [[ $REPLY =~ (^$|^[Yy]$) ]]
+                then
+                    PACKAGES_TO_INSTALL="${PACKAGES_TO_INSTALL} ${PROGS[$PROG]}"
+                fi
+            done
+        else
+            for PROG in "${!PROGS[@]}";
+            do
+                PACKAGES_TO_INSTALL="${PACKAGES_TO_INSTALL} ${PROGS[$PROG]}"
+            done
+        fi
+        
+        echo "The following programs will be installed."
+        echo -e "\033[1m${PACKAGES_TO_INSTALL}\033[0m"
+        sleep 2
+        read -p "Install? [Y/n]" -n 1 -r
+        if [[ ! $REPLY =~ (^$|^[Yy]$) ]]
+        then
+            echo
+            echo "Will not install additional programs."
+        else
+            sudo apt-get -y update && sudo apt-get install ${PACKAGES_TO_INSTALL}
+        fi
     fi
 
 }
