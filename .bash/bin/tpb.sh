@@ -41,7 +41,8 @@ download() {
             link=`echo "$line" | awk '{print $1}'`
             echo "Downloading torrent file."
             $TORRENT_PROG $TORRENT_PROG_OPTS $link
-            echo "Torrent added."
+            echo "Torrent added:"
+            echo "$link"
             exit 0
         fi
     done

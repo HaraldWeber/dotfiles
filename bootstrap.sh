@@ -6,7 +6,13 @@
 #
 
 # List which variables should not be linked to the home diretory.
-EXCLUDED_FILED_FILES='. .. bootstrap.sh etc .git .gitignore .gitmodules README.md update.sh'
+EXCLUDED_FILED_FILES='. .. bootstrap.sh etc .git .gitignore .gitmodules README.md update.sh check_tools.bash'
+
+# include some checking functions
+source check_tools.bash
+
+# Check for bash verison > 3
+checkBashVersion
 
 # Check if the HOME variable is set.
 if [ ! -d ${HOME} ] 
@@ -56,6 +62,9 @@ do
         fi 
     fi
 done
+
+# Ask if programs should be installed
+checkPrograms
 
 # Print out a list of exisiting links but with wrong destination.
 if [ ! -d ${WRONG_LINKS} ] 
