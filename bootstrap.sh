@@ -12,7 +12,11 @@ EXCLUDED_FILED_FILES='. .. bootstrap.sh etc .git .gitignore .gitmodules README.m
 source check_tools.bash
 
 # Check for bash verison > 3
-checkBashVersion
+if [[ $(checkBashVersion) -ne "0" ]]
+then
+    echo Bash version >= 4 is required
+    exit 1
+fi
 
 # Check if the HOME variable is set.
 if [ ! -d ${HOME} ] 
