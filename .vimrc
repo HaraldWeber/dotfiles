@@ -40,6 +40,7 @@ set mouse=a
 
 " solarized dark color theme
 set background=dark
+let g:solarized_termcolors=256
 colorscheme solarized
 
 " disable Background Color Erase (wrong colors in tmux)
