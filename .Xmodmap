@@ -12,4 +12,9 @@ keycode 66 = Mode_switch
 keysym h = h H Left NoSymbol NoSymbol NoSymbol
 keysym j = j J Down NoSymbol NoSymbol NoSymbol
 keysym k = k K Up NoSymbol NoSymbol NoSymbol
-keysym l = l L Right NoSymbol lstroke Lstroke
+keysym l = l L Right NoSymbol NoSymbol NoSymbol
+
+! Map Caps Lock + {ü+} to [ and ]
+keycode  34 = udiaeresis Udiaeresis bracketleft braceleft dead_diaeresis dead_abovering dead_diaeresis dead_abovering
+! Map Caps Lock + Shift + {ü+} to { and }
+keycode  35 = plus asterisk bracketright braceright asciitilde macron asciitilde macron
