@@ -14,7 +14,7 @@ set nowritebackup
 set noswapfile
 
 " make yank copy to the global system clipboard
-set clipboard=unnamed
+set clipboard=unnamedplus
 
 " bigger history
 set history=1000
