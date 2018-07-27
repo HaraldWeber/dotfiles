@@ -154,11 +154,11 @@ backup() {
 
 restore() {
     if [ $# = 2 ]; then
-        $DUPLICITY restore $ENCRYPTION_OPTS --file-to-restore $1 $REMOTE_URL $2
+        $DUPLICITY restore $ENCRYPTION_OPTS --file-to-restore "${1}" $REMOTE_URL "${2}"
     elif [ $# = 3 ]; then
-        $DUPLICITY restore $ENCRYPTION_OPTS --file-to-restore $1 --time $2 $REMOTE_URL $3
+        $DUPLICITY restore $ENCRYPTION_OPTS --file-to-restore "${1}" --time "${2}" $REMOTE_URL "${3}"
     else
-        $DUPLICITY restore $ENCRYPTION_OPTS $REMOTE_URL $1
+        $DUPLICITY restore $ENCRYPTION_OPTS $REMOTE_URL "${1}"
     fi
 }
 
