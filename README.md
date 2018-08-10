@@ -124,6 +124,15 @@ $ bat
     percentage:          64%
 ```
 
+
+## 7zc
+
+7zc is an alias for 7zip maximum compression
+(7z a -t7z -m0=lzma2 -mx=9 -mfb=64 -md=1024m -ms=on -r)
+```bash
+$ 7zc archive.7z dir/  
+```
+
 ## toggle-screen            
 
 Toggles screen output of the given screen to on of off.
