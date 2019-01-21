@@ -60,3 +60,7 @@ nnoremap <C-c> :bp\|bd #<CR>
 
 " Don't break words on a line break
 set linebreak
+
+" write as root with sudo :w!!. Type fast
+cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
+
