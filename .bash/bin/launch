@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if which > /dev/null $1 
+then
+    nohup $@ > /dev/null 2>&1 &
+else
+    echo "Command $1 not found"
+fi
