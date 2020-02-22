@@ -2,6 +2,21 @@
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
+#7z maximum compression
+alias 7zc='7z a -t7z -m0=lzma2 -mx=9 -mfb=64 -md=1024m -ms=on -r'
+
+#battery info
+alias bat='upower -i /org/freedesktop/UPower/devices/battery_BAT0| grep -E "state|to\ full|percentage|time\ to\ empty"'
+
+#top for docker containers
+alias ctop='docker run --rm -ti -v /var/run/docker.sock:/var/run/docker.sock quay.io/vektorlab/ctop:latest'
+
+#python json.tool
+alias formatJSON='python -mjson.tool'
+
+# Always resume a tmux session. If there is no session just start tmux.
+alias tmuxa='tmux attach || tmux'
+
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
