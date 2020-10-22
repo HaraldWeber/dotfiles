@@ -20,6 +20,11 @@ alias tmuxa='tmux attach || tmux'
 # Find large files (actually not du -cks)
 alias ducks='du -ah | sort -rh | head -n 20'
 
+# cygwin setup
+if [[ $(uname -s) == "CYGWIN"* ]]; then
+    alias setup='wget -q -O /tmp/setup.exe "https://www.cygwin.com/setup-x86_64.exe" && chmod +x /tmp/setup.exe && /tmp/setup.exe -n -M'
+fi
+
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
