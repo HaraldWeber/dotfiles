@@ -23,17 +23,13 @@ LINK="magnet:"
 HASH="urn:btih:$1"
 NAME="dn=$2"
 
-TRACKER_LIST=$(curl 'http://www.torrenttrackerlist.com/torrent-tracker-list/' | grep -o -e "^http.*announce" -e "^https.*announce" -e "^udp.*announce")
+TRACKER_LIST=$(curl 'https://www.torrenttrackerlist.com/torrent-tracker-list/' | grep -o -e "^http.*announce" -e "^https.*announce" -e "^udp.*announce")
 
 if [[ -z "$TRACKER_LIST" ]]
     then
 
 read -r -d '' TRACKER_LIST << EOM
-http://announce.torrentsmd.com:6969/announce
-http://mgtracker.org:2710/announce
-http://tracker.tfile.me/announce
-http://tracker.torrenty.org:6969/announce
-http://www.mvgroup.org:2710/announce
+udp://tracker.opentrackr.org:1337/announce
 EOM
 
 fi
