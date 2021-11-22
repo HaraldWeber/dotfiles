@@ -6,7 +6,7 @@ git pull
 
 # vim plugins
 GITHUB="https://github.com"
-VIM_PLUGINS="${GITHUB}/scrooloose/nerdtree ${GITHUB}/altercation/vim-colors-solarized"
+VIM_PLUGINS="${GITHUB}/altercation/vim-colors-solarized"
 
 for PLUGIN in ${VIM_PLUGINS}
 do
