@@ -1,6 +1,5 @@
 set encoding=utf-8
 syntax on
-call pathogen#infect()
 
 autocmd! bufwritepost .vimrc source % " reload config on change
 set autoread     " reload files when changed
