@@ -63,3 +63,5 @@ set linebreak
 " write as root with sudo :w!!. Type fast
 cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
 
+" Search in subdirectories
+set path+=**
