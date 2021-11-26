@@ -1,6 +1,13 @@
 # This file is used to extend the PATH variable
 
-PATH="$HOME/.bash/bin:$HOME/bin:$PATH"					# Set private bin path
+# Append missing PATH entries
+PATH_ENTRIES="/usr/local/bin /usr/bin /bin /usr/local/sbin /usr/local/bin /usr/sbin /sbin $HOME/.bash/bin $HOME/.local/bin"
+for ENTRY in ${PATH_ENTRIES}
+do
+    if [ -d "${ENTRY}" ] && [[ ":$PATH:" != *":${ENTRY}:"* ]]; then
+        PATH="${PATH:+"$PATH:"}${ENTRY}"
+    fi
+done
 
 # Load path files
 for file in ~/.bash/path/*.bash; do
