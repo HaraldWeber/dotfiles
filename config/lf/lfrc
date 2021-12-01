@@ -1,0 +1,52 @@
+set nopreview
+set ignorecase
+set globsearch
+set incfilter
+set incsearch
+
+cmd open ${{
+    case $(file --mime-type "$f" -bL) in
+        text/*|application/json) $EDITOR "$f";;
+        *) xdg-open "$f";;
+    esac
+}}
+
+# opens a new terminal
+cmd open_external ${{
+    case $(file --mime-type "$f" -bL) in
+        text/*|application/json) nohup st -e $EDITOR "$f" >/dev/null 2>&1 &;;
+        *) nohup xdg-open "$f" >/dev/null 2>&1 &;;
+    esac
+}}
+
+# Trash cli bindings
+cmd trash ${{
+    files=$(printf "$fx" | tr '\n' ';')
+    while [ "$files" ]; do
+        # extract the substring from start of string up to delimiter.
+        # this is the first "element" of the string.
+        file=${files%%;*}
+
+        trash-put "$(basename "$file")"
+        # if there's only one element left, set `files` to an empty string.
+        # this causes us to exit this `while` loop.
+        # else, we delete the first "element" of the string from files, and move onto the next.
+        if [ "$files" = "$file" ]; then
+        files=''
+        else
+        files="${files#*;}"
+        fi
+    done
+}}
+
+
+map d
+
+
+map .  set hidden!
+map dd trash
+map L  open_external
+
+map gh cd ~/
+map gd cd ~/Downloads
+map x  cut
