@@ -20,6 +20,10 @@ alias tmuxa='tmux attach || tmux'
 # Find large files (actually not du -cks)
 alias ducks='du -ah | sort -rh | head -n 20'
 
+# trash-cli aliases
+alias tl='trash-list | sort'
+alias trs='trash-restore'
+
 # cygwin setup
 if [[ $(uname -s) == "CYGWIN"* ]]; then
     alias setup='wget -q -O /tmp/setup.exe "https://www.cygwin.com/setup-x86_64.exe" && chmod +x /tmp/setup.exe && /tmp/setup.exe -n -M'
