@@ -39,6 +39,9 @@ setxkbmap -model thinkpad -layout de -variant nodeadkeys
 # Load keybindings
 xbindkeys
 
+# Enable del key for st
+tput smkx
+
 # Clipboard manager
 autocutsel -fork &
 autocutsel -selection PRIMARY -fork &
