@@ -1,3 +1,3 @@
 #!/bin/sh
 
-. $HOME/.cargo/env
+[[ -s "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
