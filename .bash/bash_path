@@ -1,7 +1,7 @@
 # This file is used to extend the PATH variable
 
 # Append missing PATH entries
-PATH_ENTRIES="/usr/local/bin /usr/bin /bin /usr/local/sbin /usr/local/bin /usr/sbin /sbin $HOME/.bash/bin $HOME/.local/bin"
+PATH_ENTRIES="/usr/local/bin /usr/bin /bin /usr/local/sbin /usr/local/bin /usr/sbin /sbin $HOME/bin $HOME/.bash/bin $HOME/.local/bin"
 for ENTRY in ${PATH_ENTRIES}
 do
     if [ -d "${ENTRY}" ] && [[ ":$PATH:" != *":${ENTRY}:"* ]]; then
