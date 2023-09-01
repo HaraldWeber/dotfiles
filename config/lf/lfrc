@@ -14,7 +14,7 @@ cmd open ${{
 # opens a new terminal
 cmd open_external ${{
     case $(file --mime-type "$f" -bL) in
-        text/*|application/json) nohup st -e $EDITOR "$f" >/dev/null 2>&1 &;;
+        text/*|application/json) nohup $TERM -e $EDITOR "$f" >/dev/null 2>&1 &;;
         *) nohup xdg-open "$f" >/dev/null 2>&1 &;;
     esac
 }}
