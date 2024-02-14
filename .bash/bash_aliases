@@ -29,6 +29,9 @@ if [[ $(uname -s) == "CYGWIN"* ]]; then
     alias setup='wget -q -O /tmp/setup.exe "https://www.cygwin.com/setup-x86_64.exe" && chmod +x /tmp/setup.exe && /tmp/setup.exe -n -M'
 fi
 
+# Find diplicates
+alias dupes='find . ! -empty -type f -exec md5sum {} + | sort | uniq -w32 -dD' 
+
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
