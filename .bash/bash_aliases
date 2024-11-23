@@ -26,7 +26,7 @@ alias trs='trash-restore'
 
 # cygwin setup
 if [[ $(uname -s) == "CYGWIN"* ]]; then
-    alias setup='wget -q -O /tmp/setup.exe "https://www.cygwin.com/setup-x86_64.exe" && chmod +x /tmp/setup.exe && /tmp/setup.exe -n -M'
+    alias setup='wget -q -O /tmp/setup.exe "https://www.cygwin.com/setup-x86_64.exe" && chmod +x /tmp/setup.exe && /tmp/setup.exe -B -n -N -M '
 fi
 
 # Find diplicates
