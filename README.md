@@ -92,7 +92,7 @@ This will open the pdf in your standard pdf reader.
 
 ## tmux
 
-tmux is an alias to 'tmux attach || tmux'
+tmux**a** is an alias to 'tmux attach || tmux'
 This alias always resume a tmux session. If there is no session just start tmux.
 
 
