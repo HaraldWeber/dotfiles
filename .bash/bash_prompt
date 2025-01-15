@@ -3,44 +3,50 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-# From https://gist.github.com/828432
+# Color Promt to red if root
+if [[ ${EUID} == 0 ]] ; then
+    debian_chroot="${Red}${debian_chroot:+($debian_chroot)}"
+fi
 
-c_reset=${Color_Off}
-c_user=${IBlack}
-c_path=${Black}
-c_git_clean=${Green}
-c_git_staged=${Cyan}
-c_git_unstaged=${Red}
+function git_prompt() {
 
-# Function to assemble the Git parsingart of our prompt.
-git_prompt ()
-{
+    # Return if not inside a Git repository work tree.
     GIT_DIR=`git rev-parse --git-dir 2>/dev/null`
     if [ -z "$GIT_DIR" ]; then
         return 0
     fi
+
+    # disble prompt by executing git config --bool prompt.showinfo false 
+    GIT_PROMPT_ENABLED=$(git config --bool prompt.showinfo)
+    if [[ ${GIT_PROMPT_ENABLED} == "false" ]]; then
+        return 1
+    fi
+
+    # Define some colors (from color.bash)
+    COLOR_GIT_CLEAN=${Green}
+    COLOR_GIT_STAGED=${Cyan}
+    COLOR_GIT_UNSTAGED=${Red}
+
+    # Getting branch info
     GIT_HEAD=`cat $GIT_DIR/HEAD`
     GIT_BRANCH=${GIT_HEAD##*/}
     if [ ${#GIT_BRANCH} -eq 40 ]; then
         GIT_BRANCH="(no branch)"
     fi
+
     STATUS=`git status --porcelain`
     if [ -z "$STATUS" ]; then
-        git_color="${c_git_clean}"
+        GIT_COLOR="${c_git_clean}"
     else
         echo -e "$STATUS" | grep -q '^ [A-Z\?]'
         if [ $? -eq 0 ]; then
-            git_color="${c_git_unstaged}"
+            GIT_COLOR="${COLOR_GIT_UNSTAGED}"
         else
-            git_color="${c_git_staged}"
+            GIT_COLOR="${COLOR_GIT_STAGED}"
         fi
     fi
-    echo "[$git_color$GIT_BRANCH$c_reset]"
+    echo "[${GIT_COLOR}${GIT_BRANCH}$Color_Off]"
 }
 
-# Thy holy prompt.
-if [[ ${EUID} == 0 ]] ; then
-    PROMPT_COMMAND='PS1="${Red}${debian_chroot:+($debian_chroot)}\u@\h:\W$(git_prompt)\$ "'
-else
-    PROMPT_COMMAND='PS1="\u@\h:\W$(git_prompt)\$ "'
-fi
+# Set the prompt
+PROMPT_COMMAND='PS1="${debian_chroot}\u@\h:\W$(git_prompt)\$ "'
