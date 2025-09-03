@@ -42,7 +42,7 @@ echo "⏳ Combining $num_inputs images into '$output_file'..."
 
 # Execute the ffmpeg command.
 # Using an array ("${ffmpeg_inputs[@]}") ensures that filenames with spaces are handled correctly.
-ffmpeg "${ffmpeg_inputs[@]}" -filter_complex "$filter_complex_str" -map "[v]" "$output_file"
+ffmpeg -loglevel error "${ffmpeg_inputs[@]}" -filter_complex "$filter_complex_str" -map "[v]" "$output_file"
 
 # Check the exit code of ffmpeg to confirm success or failure.
 if [ $? -eq 0 ]; then
