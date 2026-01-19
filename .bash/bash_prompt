@@ -34,10 +34,30 @@ function git_prompt() {
         return 0
     fi
 
-    # Single git status call, use bash pattern matching instead of grep
-    local status
-    status=$(git status --porcelain 2>/dev/null)
+    # Run git status with 5 second timeout
+    local status pid
+    status=$(
+        git status --porcelain 2>/dev/null &
+        pid=$!
+        ( sleep 5; kill $pid 2>/dev/null ) &
+        watchdog=$!
+        wait $pid 2>/dev/null
+        exit_code=$?
+        kill $watchdog 2>/dev/null
+        wait $watchdog 2>/dev/null
+        exit $exit_code
+    )
 
+    # If git status timed out (killed), disable it for this repo
+    if [[ $? -ne 0 && -z "$status" ]]; then
+        git config --local --bool prompt.showinfo false
+        echo -e "\n\e[0;33m[git-prompt] git status timed out - disabled for this repo.\e[0m"
+        echo -e "\e[0;33mRe-enable with: git config --bool prompt.showinfo true\e[0m\n"
+        echo "[$color_clean$branch$color_off]"
+        return 0
+    fi
+
+    # Determine status color
     if [[ -z "$status" ]]; then
         git_color="$color_clean"
     elif [[ "$status" == *$'\n'[\ ][AMDRC?]* ]] || [[ "$status" == [\ ][AMDRC?]* ]]; then
