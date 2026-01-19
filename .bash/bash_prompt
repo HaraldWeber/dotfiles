@@ -1,12 +1,3 @@
-# set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
-fi
-
-# Color Promt to red if root
-if [[ ${EUID} == 0 ]] ; then
-    debian_chroot="${Red}${debian_chroot:+($debian_chroot)}"
-fi
 
 function git_prompt() {
 
@@ -48,5 +39,9 @@ function git_prompt() {
     echo "[${GIT_COLOR}${GIT_BRANCH}$Color_Off]"
 }
 
-# Set the prompt
-PROMPT_COMMAND='PS1="${debian_chroot}\u@\h:\W$(git_prompt)\$ "'
+# Thy holy prompt - red for root
+if [[ ${EUID} == 0 ]]; then
+    PROMPT_COMMAND='PS1="${Red}\u@\h:\W$(git_prompt)\$ ${Color_Off}"'
+else
+    PROMPT_COMMAND='PS1="\u@\h:\W$(git_prompt)\$ "'
+fi
