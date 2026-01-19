@@ -30,7 +30,7 @@ function git_prompt() {
 
     # Skip expensive git status if disabled via: git config --bool prompt.showinfo false
     if [[ "$(git config --local --bool prompt.showinfo 2>/dev/null)" == "false" ]]; then
-        echo "[$color_clean$branch$color_off]"
+        echo "[$branch]"
         return 0
     fi
 
