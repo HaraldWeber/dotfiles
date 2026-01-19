@@ -1,42 +1,53 @@
-
 function git_prompt() {
+    # Fast exit: check for .git in current dir first (avoids git command)
+    local git_dir
+    if [[ -d .git ]]; then
+        git_dir=".git"
+    else
+        # Only run git rev-parse if no local .git found
+        git_dir=$(git rev-parse --git-dir 2>/dev/null) || return 0
+    fi
 
-    # Return if not inside a Git repository work tree.
-    GIT_DIR=`git rev-parse --git-dir 2>/dev/null`
-    if [ -z "$GIT_DIR" ]; then
+    # Raw escape codes for echo (not PS1 wrapped)
+    local color_clean=$'\e[0;32m'    # Green
+    local color_staged=$'\e[0;36m'   # Cyan
+    local color_unstaged=$'\e[0;31m' # Red
+    local color_off=$'\e[0m'
+
+    # Get branch from HEAD file directly (faster than git branch)
+    local head_content branch git_color
+    if [[ -r "$git_dir/HEAD" ]]; then
+        read -r head_content < "$git_dir/HEAD"
+        if [[ "$head_content" == ref:* ]]; then
+            branch="${head_content##*/}"
+        else
+            # Detached HEAD - show short hash
+            branch="${head_content:0:7}..."
+        fi
+    else
+        branch="unknown"
+    fi
+
+    # Skip expensive git status if disabled via: git config --bool prompt.showinfo false
+    if [[ "$(git config --local --bool prompt.showinfo 2>/dev/null)" == "false" ]]; then
+        echo "[$color_clean$branch$color_off]"
         return 0
     fi
 
-    # disble prompt by executing git config --bool prompt.showinfo false 
-    GIT_PROMPT_ENABLED=$(git config --bool prompt.showinfo)
-    if [[ ${GIT_PROMPT_ENABLED} == "false" ]]; then
-        return 1
-    fi
+    # Single git status call, use bash pattern matching instead of grep
+    local status
+    status=$(git status --porcelain 2>/dev/null)
 
-    # Define some colors (from color.bash)
-    COLOR_GIT_CLEAN=${Green}
-    COLOR_GIT_STAGED=${Cyan}
-    COLOR_GIT_UNSTAGED=${Red}
-
-    # Getting branch info
-    GIT_HEAD=`cat $GIT_DIR/HEAD`
-    GIT_BRANCH=${GIT_HEAD##*/}
-    if [ ${#GIT_BRANCH} -eq 40 ]; then
-        GIT_BRANCH="(no branch)"
-    fi
-
-    STATUS=`git status --porcelain`
-    if [ -z "$STATUS" ]; then
-        GIT_COLOR="${c_git_clean}"
+    if [[ -z "$status" ]]; then
+        git_color="$color_clean"
+    elif [[ "$status" == *$'\n'[\ ][AMDRC?]* ]] || [[ "$status" == [\ ][AMDRC?]* ]]; then
+        # Unstaged changes (space in first column, letter in second)
+        git_color="$color_unstaged"
     else
-        echo -e "$STATUS" | grep -q '^ [A-Z\?]'
-        if [ $? -eq 0 ]; then
-            GIT_COLOR="${COLOR_GIT_UNSTAGED}"
-        else
-            GIT_COLOR="${COLOR_GIT_STAGED}"
-        fi
+        git_color="$color_staged"
     fi
-    echo "[${GIT_COLOR}${GIT_BRANCH}$Color_Off]"
+
+    echo "[$git_color$branch$color_off]"
 }
 
 # Thy holy prompt - red for root
