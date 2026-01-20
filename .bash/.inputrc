@@ -6,9 +6,43 @@ set bell-style none
 set input-meta on
 set output-meta on
 
+# Case-insensitive completion
+set completion-ignore-case on
+
+# Treat hyphens and underscores as equivalent in completion
+set completion-map-case on
+
+# Show all completions on first TAB instead of waiting for second
+set show-all-if-ambiguous on
+
+# Show all completions if no partial completion possible
+set show-all-if-unmodified on
+
+# Add trailing slash to completed directories
+set mark-directories on
+set mark-symlinked-directories on
+
+# Color files by type during completion (like ls --color)
+set colored-stats on
+
+# Color the common prefix in completions
+set colored-completion-prefix on
+
+# Don't expand ~ to /home/user in completion
+set expand-tilde off
+
+# Faster completion (don't wait for more input)
+set keyseq-timeout 50
+
+# History search with arrow keys (type partial command, then up/down)
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+
 # allow the use of the Home/End keys
 "\e[1~": beginning-of-line
 "\e[4~": end-of-line
+"\e[H": beginning-of-line
+"\e[F": end-of-line
 
 # allow the use of the Delete/Insert keys
 "\e[3~": delete-char
@@ -22,3 +56,5 @@ set output-meta on
 "\e\e[C": forward-word
 "\e\e[D": backward-word
 
+# Ctrl+L clears screen (explicit)
+"\C-l": clear-screen
