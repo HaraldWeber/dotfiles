@@ -1,3 +1,8 @@
+# cd shortcuts
+alias ..='cd ..'
+alias ...='cd ../..'
+alias -='cd -'
+
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
@@ -19,6 +24,12 @@ alias tmuxa='tmux attach || tmux'
 
 # Find large files (actually not du -cks)
 alias ducks='du -ah | sort -rh | head -n 20'
+
+# Disk free
+alias df='df -h'
+
+# Create parent dirs and verbose
+alias mkdri='mkdir -pv'
 
 # trash-cli aliases
 alias tl='trash-list | sort'
