@@ -1,0 +1,89 @@
+[user]
+    name = Harald Weber
+    email = harald.h.weber@gmail.com
+
+[core]
+    editor = vim
+    pager = less -FRX
+    whitespace = trailing-space,space-before-tab
+
+[init]
+    defaultBranch = main
+
+[pull]
+    rebase = true                 # Rebase instead of merge on pull
+
+[push]
+    default = current             # Push current branch to same name
+    autoSetupRemote = true        # Auto setup tracking on first push
+
+[fetch]
+    prune = true                  # Remove deleted remote branches
+
+[merge]
+    conflictstyle = diff3         # Show base version in conflicts
+    tool = vimdiff
+
+[diff]
+    colorMoved = default          # Highlight moved lines differently
+
+[rebase]
+    autoStash = true              # Stash changes before rebase, apply after
+
+[rerere]
+    enabled = true                # Remember conflict resolutions
+
+[color]
+    ui = auto
+
+[alias]
+    # Status & Info
+    s = status -sb
+    l = log --oneline -20
+    lg = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset) %C(dim white)(%aD)%C(reset)' --all
+    last = log -1 HEAD --stat
+
+    # Branching
+    co = checkout
+    cob = checkout -b
+    br = branch -vv
+    brd = branch -d
+
+    # Commits
+    c = commit
+    cm = commit -m
+    ca = commit --amend
+    can = commit --amend --no-edit
+
+    # Staging
+    a = add
+    aa = add --all
+    ap = add -p                   # Interactive staging
+    unstage = reset HEAD --
+
+    # Diff
+    d = diff
+    ds = diff --staged
+    dw = diff --word-diff
+
+    # Stash
+    st = stash
+    stp = stash pop
+    stl = stash list
+
+    # Undo
+    undo = reset --soft HEAD~1    # Undo last commit, keep changes staged
+    discard = checkout --         # Discard changes in working dir
+
+    # Remote
+    p = push
+    pf = push --force-with-lease  # Safer force push
+    pl = pull
+
+    # Utility
+    aliases = config --get-regexp alias
+    whoami = !git config user.name && git config user.email
+    root = rev-parse --show-toplevel
+
+[credential]
+    helper = cache --timeout=3600  # Cache credentials for 1 hour
