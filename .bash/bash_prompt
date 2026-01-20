@@ -34,22 +34,25 @@ function git_prompt() {
         return 0
     fi
 
-    # Run git status with 5 second timeout
-    local status pid
-    status=$(
-        git status --porcelain 2>/dev/null &
-        pid=$!
-        ( sleep 5; kill $pid 2>/dev/null ) &
-        watchdog=$!
-        wait $pid 2>/dev/null
+    # Run git status with 5 second timeout (non-blocking)
+    local status exit_code=0 duration=0
+    local timeout_sec=2
+    if command -v timeout &>/dev/null; then
+        # Use coreutils timeout if available (most Linux systems)
+        status=$(timeout $timeout_sec git status --porcelain 2>/dev/null)
         exit_code=$?
-        kill $watchdog 2>/dev/null
-        wait $watchdog 2>/dev/null
-        exit $exit_code
-    )
+    else
+        # Run git status and measure runtime
+        local start_time end_time
+        start_time=$(date +%s)
+        status=$(git status --porcelain 2>/dev/null)
+        exit_code=$?
+        end_time=$(date +%s)
+        duration=$((end_time - start_time))
+    fi
 
-    # If git status timed out (killed), disable it for this repo
-    if [[ $? -ne 0 && -z "$status" ]]; then
+    # If git status took longer than 5 seconds or timed out, disable it for this repo
+    if [[ $exit_code -eq 124 ]] || [[ $duration -ge $timeout_sec ]]; then
         git config --local --bool prompt.showinfo false
         echo -e "\n\e[0;33m[git-prompt] git status timed out - disabled for this repo.\e[0m"
         echo -e "\e[0;33mRe-enable with: git config --bool prompt.showinfo true\e[0m\n"
