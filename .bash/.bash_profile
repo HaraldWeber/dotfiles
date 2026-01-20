@@ -2,12 +2,17 @@
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
 
-# append to the history file, don't overwrite it
-shopt -s histappend
-
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
 HISTFILESIZE=2000
+HISTTIMEFORMAT="%F %T "  # Add timestamps
+
+shopt -s histappend      # append to the history file, don't overwrite it
+shopt -s cmdhist         # Save multi-line commands in one line
+shopt -s cdspell         # Autocorrect typos in cd
+shopt -s dirspell        # Autocorrect directory names
+shopt -s autocd          # Type directory name to cd into it
+shopt -s nocaseglob      # Case-insensitive globbing
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
