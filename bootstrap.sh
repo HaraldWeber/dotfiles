@@ -19,7 +19,7 @@ then
 fi
 
 # Check if the HOME variable is set.
-if [ ! -d "${HOME}" ] 
+if [[ ! -d "${HOME}" ]] 
 then
     HOME=~/
     echo "Setting HOME to ${HOME}"
@@ -53,11 +53,11 @@ for item in "${WORKING_DIR}"/*; do
     LINK_DEST_PATH="${HOME}/${LINK_NAME}"
 
     # Check wether the link already exists.
-    if [ -L "${LINK_DEST_PATH}" ]
+    if [[ -L "${LINK_DEST_PATH}" ]]
     then
         # The link exists.
         # Check if the links destination is correct.
-        if [ ! "$(readlink "${LINK_DEST_PATH}")" = "${WORKING_DIR}/${LINK_NAME}" ]
+        if [[ "$(readlink "${LINK_DEST_PATH}")" != "${WORKING_DIR}/${LINK_NAME}" ]]
         then
             # The links destination is wrong. Add it to the list.
             WRONG_LINKS+=("$(readlink "${LINK_DEST_PATH}") != ${WORKING_DIR}/${LINK_NAME}")
@@ -65,7 +65,7 @@ for item in "${WORKING_DIR}"/*; do
     else
         # The linkd does not exists in the home directory.
         # Check if there is a file or directory with the same name.
-        if [ -e "${LINK_DEST_PATH}" ]
+        if [[ -e "${LINK_DEST_PATH}" ]]
         then
             # There is already a file or directory with the same name.
             EXISTING_LINKS+=("${LINK_DEST_PATH}")
@@ -81,7 +81,7 @@ done
 checkPrograms
 
 # Print out a list of exisiting links but with wrong destination.
-if [ ${#WRONG_LINKS[@]} -gt 0 ]
+if [[ ${#WRONG_LINKS[@]} -gt 0 ]]
 then
     echo -e "\n\n\e[31mThe following links exists but point to a wrong location"
     echo -e "Please remove or fix them\e[0m"
@@ -89,7 +89,7 @@ then
 fi
 
 # Print out a list of existing files or directories with the same name.
-if [ ${#EXISTING_LINKS[@]} -gt 0 ]
+if [[ ${#EXISTING_LINKS[@]} -gt 0 ]]
 then
     echo -e "\n\n\e[31mThe following files or directories alredy exists\e[0m"
     printf '%s\n' "${EXISTING_LINKS[@]}"
