@@ -35,7 +35,7 @@ do
 done
 
 # Execute ls to get a list of files to be linked.
-LINK_NAMES=`ls -a ${LS_EXCLUDE_PARAMS} "${WORKING_DIR}"`
+LINK_NAMES=$(ls -a ${LS_EXCLUDE_PARAMS} "${WORKING_DIR}")
 
 for LINK_NAME in ${LINK_NAMES}
 do
