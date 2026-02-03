@@ -50,7 +50,7 @@ do
         if [ ! "$(readlink ${LINK_DEST_PATH})" = "${WORKING_DIR}/${LINK_NAME}" ]
         then
             # The links destination is wrong. Add it to the list.
-            WRONG_LINKS="${WRONG_LINKS}\\n$(readlink ${LINK_DEST_PATH}) != ${WORKING_DIR}/${LINK_NAME}"
+            WRONG_LINKS+=("$(readlink ${LINK_DEST_PATH}) != ${WORKING_DIR}/${LINK_NAME}")
         fi
     else
         # The linkd does not exists in the home directory.
@@ -58,7 +58,7 @@ do
         if [ -e ${LINK_DEST_PATH} ]
         then
             # There is already a file or directory with the same name.
-            EXISTING_LINKS="${EXISTING_LINKS}\\n${LINK_DEST_PATH}"
+            EXISTING_LINKS+=("${LINK_DEST_PATH}")
         else
             # Creating a link in the home directory to the correct file in the dotfiles repository.
             echo "Linking ${WORKING_DIR}/${LINK_NAME} to ${LINK_DEST_PATH}"
@@ -71,17 +71,17 @@ done
 checkPrograms
 
 # Print out a list of exisiting links but with wrong destination.
-if [ ! -d ${WRONG_LINKS} ] 
+if [ ${#WRONG_LINKS[@]} -gt 0 ]
 then
     echo -e "\n\n\e[31mThe following links exists but point to a wrong location"
     echo -e "Please remove or fix them\e[0m"
-    echo -e "${WRONG_LINKS}"
+    printf '%s\n' "${WRONG_LINKS[@]}"
 fi
 
 # Print out a list of existing files or directories with the same name.
-if [ ! -d ${EXISTING_LINKS} ] 
+if [ ${#EXISTING_LINKS[@]} -gt 0 ]
 then
     echo -e "\n\n\e[31mThe following files or directories alredy exists\e[0m"
-    echo -e "${EXISTING_LINKS}"
+    printf '%s\n' "${EXISTING_LINKS[@]}"
 fi
 
