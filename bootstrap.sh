@@ -28,17 +28,27 @@ fi
 # Set the directory of the dotfiles.git repository.
 WORKING_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-# Generate exclude parameters for ls.
-for EXCLUDED_FILE in ${EXCLUDED_FILED_FILES}
-do
-    LS_EXCLUDE_PARAMS="${LS_EXCLUDE_PARAMS} -I ${EXCLUDED_FILE}"
-done
+# Function to check if a file should be excluded
+is_excluded() {
+    local filename="$1"
+    for excluded in ${EXCLUDED_FILED_FILES}; do
+        if [[ "${filename}" == "${excluded}" ]]; then
+            return 0
+        fi
+    done
+    return 1
+}
 
-# Execute ls to get a list of files to be linked.
-LINK_NAMES=$(ls -a ${LS_EXCLUDE_PARAMS} "${WORKING_DIR}")
+# Enable dotglob to include hidden files in glob pattern
+shopt -s dotglob
 
-for LINK_NAME in ${LINK_NAMES}
-do
+for item in "${WORKING_DIR}"/*; do
+    LINK_NAME=$(basename "${item}")
+    
+    # Skip excluded files
+    if is_excluded "${LINK_NAME}"; then
+        continue
+    fi
     # Set the path of the links filename.
     LINK_DEST_PATH="${HOME}/${LINK_NAME}"
 
