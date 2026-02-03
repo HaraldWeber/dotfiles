@@ -6,7 +6,7 @@
 #
 
 # List which variables should not be linked to the home diretory.
-EXCLUDED_FILED_FILES='. .. bootstrap.sh etc .git .gitignore .gitmodules README.md update.sh check_tools.bash config'
+EXCLUDED_FILES='. .. bootstrap.sh etc .git .gitignore .gitmodules README.md update.sh check_tools.bash config'
 
 # include some checking functions
 source check_tools.bash
@@ -31,7 +31,7 @@ WORKING_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 # Function to check if a file should be excluded
 is_excluded() {
     local filename="$1"
-    for excluded in ${EXCLUDED_FILED_FILES}; do
+    for excluded in ${EXCLUDED_FILES}; do
         if [[ "${filename}" == "${excluded}" ]]; then
             return 0
         fi
