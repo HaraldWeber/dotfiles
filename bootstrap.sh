@@ -19,7 +19,7 @@ then
 fi
 
 # Check if the HOME variable is set.
-if [ ! -d ${HOME} ] 
+if [ ! -d "${HOME}" ] 
 then
     HOME=~/
     echo "Setting HOME to ${HOME}"
@@ -35,34 +35,34 @@ do
 done
 
 # Execute ls to get a list of files to be linked.
-LINK_NAMES=`ls -a ${LS_EXCLUDE_PARAMS} ${WORKING_DIR}`
+LINK_NAMES=`ls -a ${LS_EXCLUDE_PARAMS} "${WORKING_DIR}"`
 
 for LINK_NAME in ${LINK_NAMES}
 do
     # Set the path of the links filename.
-    LINK_DEST_PATH=${HOME}/${LINK_NAME}
+    LINK_DEST_PATH="${HOME}/${LINK_NAME}"
 
     # Check wether the link already exists.
-    if [ -L ${LINK_DEST_PATH} ]
+    if [ -L "${LINK_DEST_PATH}" ]
     then
         # The link exists.
         # Check if the links destination is correct.
-        if [ ! "$(readlink ${LINK_DEST_PATH})" = "${WORKING_DIR}/${LINK_NAME}" ]
+        if [ ! "$(readlink "${LINK_DEST_PATH}")" = "${WORKING_DIR}/${LINK_NAME}" ]
         then
             # The links destination is wrong. Add it to the list.
-            WRONG_LINKS+=("$(readlink ${LINK_DEST_PATH}) != ${WORKING_DIR}/${LINK_NAME}")
+            WRONG_LINKS+=("$(readlink "${LINK_DEST_PATH}") != ${WORKING_DIR}/${LINK_NAME}")
         fi
     else
         # The linkd does not exists in the home directory.
         # Check if there is a file or directory with the same name.
-        if [ -e ${LINK_DEST_PATH} ]
+        if [ -e "${LINK_DEST_PATH}" ]
         then
             # There is already a file or directory with the same name.
             EXISTING_LINKS+=("${LINK_DEST_PATH}")
         else
             # Creating a link in the home directory to the correct file in the dotfiles repository.
             echo "Linking ${WORKING_DIR}/${LINK_NAME} to ${LINK_DEST_PATH}"
-            ln -s ${WORKING_DIR}/${LINK_NAME} ${LINK_DEST_PATH}
+            ln -s "${WORKING_DIR}/${LINK_NAME}" "${LINK_DEST_PATH}"
         fi 
     fi
 done
