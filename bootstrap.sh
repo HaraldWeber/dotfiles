@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 #
 # This script links some config files from the dotfiles.git repo to the home direcotry.
 #
