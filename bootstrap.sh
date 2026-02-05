@@ -43,6 +43,10 @@ is_excluded() {
 # Enable dotglob to include hidden files in glob pattern
 shopt -s dotglob
 
+# Initialize arrays for tracking issues
+WRONG_LINKS=()
+EXISTING_LINKS=()
+
 for item in "${WORKING_DIR}"/*; do
     LINK_NAME=$(basename "${item}")
     
