@@ -28,6 +28,14 @@ stty -ixon
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
+# load fuzzy finder fzf
+if command -v fzf &>/dev/null; then
+  if [[ "$OSTYPE" == "cygwin" ]]; then
+    export MSYS=enable_pcon
+  fi
+  eval "$(fzf --bash)"
+fi
+
 # Load some dotfiles (order is important)
 for file in ~/.bash/{bash_exports,bash_path,bash_aliases,bash_completion,bash_prompt}; do
   [ -r "$file" ] && source "$file"
