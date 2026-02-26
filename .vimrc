@@ -173,10 +173,10 @@ augroup EphemeralFiles
     autocmd VimEnter * if argc() == 0 | call s:LoadSessionFiles() | endif
 
     " When leaving a named ephemeral buffer, silently save it
-    autocmd BufLeave * if expand('%') =~# '^' . g:session_dir | silent write | endif
+    autocmd BufLeave * if expand('%') =~# '^' . g:session_dir && !&readonly | silent write | endif
 
     " When leaving an unnamed buffer, save it if it has content
-    autocmd BufLeave * call s:SaveEphemeral()
+    autocmd BufLeave * if !&readonly | call s:SaveEphemeral() | endif
 
     " Before quitting, persist all unnamed buffers with content
     autocmd VimLeavePre * call s:PersistAllEphemeral()
