@@ -43,6 +43,7 @@ vnoremap > >gv
 
 " enable mouse support
 set mouse=a
+set ttymouse=xterm2
 
 " solarized dark color theme
 set background=dark
