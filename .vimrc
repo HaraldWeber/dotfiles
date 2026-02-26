@@ -65,3 +65,8 @@ cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
 
 " Search in subdirectories
 set path+=**
+
+" Save the file if switching to another file (only named non-ephemeral buffers)
+autocmd BufLeave * if !empty(bufname('%')) && bufname('%') !~# '^' . g:session_dir | silent write | endif
+
+" Session handling like vscode
