@@ -2,7 +2,14 @@ set encoding=utf-8
 syntax on
 
 autocmd! bufwritepost .vimrc source % " reload config on change
+
+" Auto-reload externally changed files when Vim regains focus or buffer is entered
 set autoread     " reload files when changed
+augroup AutoReload
+    autocmd!
+    autocmd FocusGained,BufEnter,CursorHold,CursorHoldI,CursorMoved,InsertEnter * checktime
+augroup END
+
 set number       " show line numbers
 set bs=2         " normal backspace
 inoremap kj <Esc>`^ " Easy escape without cursor movement
