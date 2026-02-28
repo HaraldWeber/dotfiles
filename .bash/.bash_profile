@@ -49,7 +49,7 @@ done
 # Add JBang to environment
 if [[ -s "$HOME/.jbang/bin/jbang" ]]; then
     alias j=jbang
-    export PATH="$HOME/.jbang.bin:$PATH"
+    export PATH="$HOME/.jbang/bin:$PATH"
 fi
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
