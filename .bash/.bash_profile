@@ -46,6 +46,12 @@ for file in ~/.bash/functions/*.bash; do
   [ -r "$file" ] && source "$file"
 done
 
+# Add JBang to environment
+if [[ -s "$HOME/.jbang/bin/jbang" ]]; then
+    alias j=jbang
+    export PATH="$HOME/.jbang.bin:$PATH"
+fi
+
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
