@@ -47,10 +47,10 @@ vnoremap > >gv
 set mouse=a
 set ttymouse=xterm2
 
-" solarized dark color theme
+" set color theme
+"let g:solarized_termcolors=256
 set background=dark
-let g:solarized_termcolors=256
-colorscheme solarized
+colorscheme desert
 
 " disable Background Color Erase (wrong colors in tmux)
 set t_ut=
